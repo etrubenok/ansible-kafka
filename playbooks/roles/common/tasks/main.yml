@@ -47,6 +47,10 @@
 
 - name: Upgrade all packages (apt)
   apt: upgrade=dist
+  register: command_result
+  retries: 5
+  delay: 30
+  until: command_result | success
   when: ansible_os_family == "Debian"
 
 - name: Make sure the NTP service is stopped
