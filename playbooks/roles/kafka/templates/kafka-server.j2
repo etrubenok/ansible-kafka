@@ -55,6 +55,8 @@ SHUTDOWN_WAIT=${SHUTDOWN_WAIT:-"30"}
 # Whether to output "attempting to shut down" messages or not
 SHUTDOWN_VERBOSE=${SHUTDOWN_VERBOSE:-false}
 
+KAFKA_OPTS="${KAFKA_OPTS} -javaagent:/opt/kafka/jmx_prometheus_javaagent-0.10.jar=7071:/etc/kafka/config/kafka-jmx-prometheus.yaml"
+
 retval="0"
 
 # Defining log_success, log_failure and log_warning to not depend on lsb being installed
