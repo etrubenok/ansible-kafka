@@ -32,6 +32,12 @@
 
 - meta: flush_handlers
 
+- name: Download JMX to Prometheus exporter
+  get_url: url="https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.10/jmx_prometheus_javaagent-0.10.jar" dest=/opt/zookeeper-{{ zookeeper_version }}/jmx_prometheus_javaagent-0.10.jar
+
+- name: Upload Kafka JMX Prometheus configuration
+  copy: src=zoo-jmx-prometheus.yaml dest="{{ zookeeper_conf_dir }}/" owner=root group=root mode=644
+
 - name: Configure Zookeeper server
   template: src=zoo.cfg.j2 dest="{{zookeeper_conf_dir}}/zoo.cfg"
   notify: Restart zookeeper
@@ -51,3 +57,6 @@
 
 - name: Add Zookeeper binaries to PATH
   copy: src=zookeeper.sh dest=/etc/profile.d/ owner=root group=root mode=644
+
+- name: Make sure Zookeeper is restarted
+  service: name=zookeeper-server enabled=yes state=restarted
